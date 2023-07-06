@@ -1,4 +1,4 @@
-module github.com/Hasyim-Kai/Go_Gin_Rest_Api
+module github.com/Hasyim-Kai/Go_Gin_Rest_Api_MySkill
 
 go 1.20
 

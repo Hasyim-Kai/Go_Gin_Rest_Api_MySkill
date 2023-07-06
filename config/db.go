@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/Hasyim-Kai/Go_Gin_Rest_Api/model"
+	"github.com/Hasyim-Kai/Go_Gin_Rest_Api_MySkill/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

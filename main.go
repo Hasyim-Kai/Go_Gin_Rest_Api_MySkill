@@ -1,6 +1,6 @@
 package main
 
-import "github.com/Hasyim-Kai/Go_Gin_Rest_Api/config"
+import "github.com/Hasyim-Kai/Go_Gin_Rest_Api_MySkill/config"
 
 func main() {
 	// practice.RunArray()

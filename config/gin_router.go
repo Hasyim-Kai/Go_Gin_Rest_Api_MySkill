@@ -1,7 +1,7 @@
 package config
 
 import (
-	controller "github.com/Hasyim-Kai/Go_Gin_Rest_Api/controller/student"
+	controller "github.com/Hasyim-Kai/Go_Gin_Rest_Api_MySkill/controller/student"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )

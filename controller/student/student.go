@@ -3,7 +3,7 @@ package controller
 import (
 	"net/http"
 
-	"github.com/Hasyim-Kai/Go_Gin_Rest_Api/model"
+	"github.com/Hasyim-Kai/Go_Gin_Rest_Api_MySkill/model"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
