@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func catch() {
+func Catch() {
 	if r := recover(); r == nil {
 		fmt.Println("app berjalan mulus")
 	} else {
@@ -17,7 +17,7 @@ func RunDeferPanicError() {
 	var input string
 	var number int
 	var err error
-	defer catch() // kode recover() harus defer
+	defer Catch() // kode recover() harus defer
 	// defer fmt.Println("jalan pake defer")
 	// fmt.Println("jalan")
 

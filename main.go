@@ -1,23 +1,13 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/Hasyim-Kai/Go_Gin_Rest_Api/practice"
+	practice_goroutine "github.com/Hasyim-Kai/Go_Gin_Rest_Api/practice_goroutines"
 )
 
-type Person struct {
-	name string
-	age  int
-}
-
-func (p Person) yelyel() {
-	fmt.Println("Nama Saya adalah " + p.name)
-}
-
 func main() {
-	// sugiono := Person{"Sugiono", 69}
-	// sugiono.yelyel()
 	// practice.RunArray()
-	practice.RunDeferPanicError()
+	// practice.RunDeferPanicError()
+	// practice.RunJson()
+	// practice.RunInterface()
+	practice_goroutine.RunGoroutines()
 }
