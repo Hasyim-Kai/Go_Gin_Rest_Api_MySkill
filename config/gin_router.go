@@ -13,9 +13,9 @@ func SetupRouter() *gin.Engine {
 
 	r.POST("/student", func(ctx *gin.Context) { controller.PostHandler(ctx, DB) })
 	r.GET("/student", func(ctx *gin.Context) { controller.GetAllHandler(ctx, DB) })
-	// r.GET("/student/:student_id", func(ctx *gin.Context) { controller.GetHandler(ctx, DB) })
-	// r.PUT("/student/:student_id", func(ctx *gin.Context) { controller.PutHandler(ctx, DB) })
-	// r.DELETE("/student/:student_id", func(ctx *gin.Context) { controller.DelHandler(ctx, DB) })
+	r.GET("/student/:id", func(ctx *gin.Context) { controller.GetHandler(ctx, DB) })
+	r.PUT("/student/:id", func(ctx *gin.Context) { controller.PutHandler(ctx, DB) })
+	r.DELETE("/student/:id", func(ctx *gin.Context) { controller.DelHandler(ctx, DB) })
 
 	return r
 }

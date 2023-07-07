@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/Hasyim-Kai/Go_Gin_Rest_Api_MySkill/model"
 	"github.com/gin-gonic/gin"
@@ -27,62 +28,66 @@ func GetAllHandler(c *gin.Context, db *gorm.DB) {
 	result := db.Find(&Student)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": result.Error.Error()})
+		return
 	}
-
 	if Student == nil {
 		c.JSON(http.StatusNotFound, gin.H{"message": "data not found"})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{"data": Student})
+}
+
+func GetHandler(c *gin.Context, db *gorm.DB) {
+	var Student model.Student
+	id, parseErr := strconv.Atoi(c.Param("id"))
+	if parseErr != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Param ID Must be a Number"})
+		return
+	}
+
+	Student.Student_id = id
+	result := db.First(&Student)
+
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": Student})
+}
+
+func PutHandler(c *gin.Context, db *gorm.DB) {
+	var Student model.Student
+	id, parseErr := strconv.Atoi(c.Param("id"))
+	if parseErr != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Param ID Must be a Number"})
+		return
+	}
+
+	Student.Student_id = id
+	if c.Bind(&Student) == nil {
+		result := db.Save(&Student)
+		if result.Error != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"message": "Success Update"})
+	}
 
 }
 
-// func GetHandler(c *gin.Context, db *gorm.DB) {
-// 	var Student []model.Student
+func DelHandler(c *gin.Context, db *gorm.DB) {
+	var Student model.Student
+	id, parseErr := strconv.Atoi(c.Param("id"))
+	if parseErr != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Param ID Must be a Number"})
+		return
+	}
 
-// 	studentId := c.Param("student_id")
-
-// 	row, err := db.Query("select * from students where student_id = $1", studentId)
-// 	if err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-// 	}
-
-// 	utils.RowToStruct(row, &Student)
-
-// 	if Student == nil {
-// 		c.JSON(http.StatusNotFound, gin.H{"message": "data not found"})
-// 		return
-// 	}
-
-// 	c.JSON(http.StatusOK, gin.H{"data": Student})
-// }
-
-// func PutHandler(c *gin.Context, db *gorm.DB) {
-// 	var Student model.Student
-
-// 	studentId := c.Param("student_id")
-
-// 	if c.Bind(&Student) == nil {
-// 		_, err := db.Exec("update students set student_name=$1 where student_id=$2", Student.Student_name, studentId)
-// 		if err != nil {
-// 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-// 		}
-
-// 		c.JSON(http.StatusOK, gin.H{"message": "success update"})
-// 	}
-
-// }
-
-// func DelHandler(c *gin.Context, db *gorm.DB) {
-// 	studentId := c.Param("student_id")
-
-// 	_, err := db.Exec("delete from students where student_id=$1", studentId)
-// 	if err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-// 		return
-// 	}
-
-// 	c.JSON(http.StatusOK, gin.H{"message": "success delete"})
-
-// }
+	Student.Student_id = id
+	result := db.Delete(&Student)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Success Delete"})
+}
