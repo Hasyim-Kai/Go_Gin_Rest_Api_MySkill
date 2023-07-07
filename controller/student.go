@@ -4,15 +4,15 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/Hasyim-Kai/Go_Gin_Rest_Api_MySkill/config"
 	"github.com/Hasyim-Kai/Go_Gin_Rest_Api_MySkill/model"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
-func PostHandler(c *gin.Context, db *gorm.DB) {
+func Login(c *gin.Context) {
 	var Student model.Student
 	if c.Bind(&Student) == nil {
-		result := db.Create(&Student) // pass pointer of data to Create
+		result := config.DB.Create(&Student) // pass pointer of data to Create
 		if result.Error != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"message": result.Error.Error()})
 			return
@@ -23,9 +23,23 @@ func PostHandler(c *gin.Context, db *gorm.DB) {
 	c.JSON(http.StatusBadRequest, gin.H{"message": "error"})
 }
 
-func GetAllHandler(c *gin.Context, db *gorm.DB) {
+func PostHandler(c *gin.Context) {
+	var Student model.Student
+	if c.Bind(&Student) == nil {
+		result := config.DB.Create(&Student) // pass pointer of data to Create
+		if result.Error != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"message": result.Error.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"message": "success create"})
+		return
+	}
+	c.JSON(http.StatusBadRequest, gin.H{"message": "error"})
+}
+
+func GetAllHandler(c *gin.Context) {
 	var Student []model.Student
-	result := db.Find(&Student)
+	result := config.DB.Find(&Student)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": result.Error.Error()})
 		return
@@ -37,7 +51,7 @@ func GetAllHandler(c *gin.Context, db *gorm.DB) {
 	c.JSON(http.StatusOK, gin.H{"data": Student})
 }
 
-func GetHandler(c *gin.Context, db *gorm.DB) {
+func GetHandler(c *gin.Context) {
 	var Student model.Student
 	id, parseErr := strconv.Atoi(c.Param("id"))
 	if parseErr != nil {
@@ -46,7 +60,7 @@ func GetHandler(c *gin.Context, db *gorm.DB) {
 	}
 
 	Student.Student_id = id
-	result := db.First(&Student)
+	result := config.DB.First(&Student)
 
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
@@ -55,7 +69,7 @@ func GetHandler(c *gin.Context, db *gorm.DB) {
 	c.JSON(http.StatusOK, gin.H{"data": Student})
 }
 
-func PutHandler(c *gin.Context, db *gorm.DB) {
+func PutHandler(c *gin.Context) {
 	var Student model.Student
 	id, parseErr := strconv.Atoi(c.Param("id"))
 	if parseErr != nil {
@@ -65,7 +79,7 @@ func PutHandler(c *gin.Context, db *gorm.DB) {
 
 	Student.Student_id = id
 	if c.Bind(&Student) == nil {
-		result := db.Save(&Student)
+		result := config.DB.Save(&Student)
 		if result.Error != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 			return
@@ -75,7 +89,7 @@ func PutHandler(c *gin.Context, db *gorm.DB) {
 
 }
 
-func DelHandler(c *gin.Context, db *gorm.DB) {
+func DelHandler(c *gin.Context) {
 	var Student model.Student
 	id, parseErr := strconv.Atoi(c.Param("id"))
 	if parseErr != nil {
@@ -84,7 +98,7 @@ func DelHandler(c *gin.Context, db *gorm.DB) {
 	}
 
 	Student.Student_id = id
-	result := db.Delete(&Student)
+	result := config.DB.Delete(&Student)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
 		return

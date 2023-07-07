@@ -10,7 +10,7 @@ import (
 
 var DB *gorm.DB
 
-func DbInit() *gorm.DB {
+func ConnectDatabase() {
 	dsn := "host=localhost user=postgres password=123 dbname=practice_rest_api port=5432 sslmode=disable TimeZone=Asia/Jakarta"
 	DB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
@@ -44,5 +44,4 @@ func DbInit() *gorm.DB {
 			fmt.Println("=================== Seeder Success ======================")
 		}
 	}
-	return DB
 }
